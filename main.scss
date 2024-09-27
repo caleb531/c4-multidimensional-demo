@@ -1,73 +1,72 @@
 body {
-	display: flex;
-	justify-content: center;
-	background-color: #111;
-	text-align: center;
-	font-family: 'Ubuntu', sans-serif;
-	color: #fff;
+  display: flex;
+  justify-content: center;
+  background-color: #111;
+  text-align: center;
+  font-family: 'Ubuntu', sans-serif;
+  color: #fff;
 }
 
 h1 {
-	font-size: 1rem;
-	font-weight: 400;
-	letter-spacing: 0.5px;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.5px;
 }
 
 @keyframes zoom-in {
-	0% {
-		transform: scale(50);
-	}
-	100% {
-		transform: scale(1);
-	}
+  0% {
+    transform: scale(50);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .grid {
-	display: inline-flex;
-	position: relative;
-	padding: 42px;
-	background-color: #222;
-	border-radius: 20px;
-	/* animation: zoom-in 1000ms ease-in-out forwards; */
+  display: inline-flex;
+  position: relative;
+  padding: 42px;
+  background-color: #222;
+  border-radius: 20px;
+  /* animation: zoom-in 1000ms ease-in-out forwards; */
 }
 
 .chip,
 .empty-chip-slot {
-	padding: 5px;
+  padding: 5px;
 }
 .chip-inner.red {
-	background-color: #c33;
-	border-color: #900;
+  background-color: #c33;
+  border-color: #900;
 }
 .chip-inner.blue {
-	background-color: #69f;
-	border-color: #36c;
+  background-color: #69f;
+  border-color: #36c;
 }
 .chip.pending {
-	pointer-events: none;
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: 100;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
 }
 .chip.pending .chip-inner {
-	transition: transform 150ms ease-in-out;
+  transition: transform 150ms ease-in-out;
 }
 .chip.pending .chip-inner.placing-chip {
-	transition-duration: 750ms;
+  transition-duration: 750ms;
 }
-
 
 .chip-inner,
 .empty-chip-slot-inner {
-	width: 32px;
-	height: 32px;
-	border-style: solid;
-	border-width: 1px;
-	border-radius: 50%;
-	box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 50%;
+  box-sizing: border-box;
 }
 
 .empty-chip-slot-inner {
-	border-color: #999;
+  border-color: #999;
 }
