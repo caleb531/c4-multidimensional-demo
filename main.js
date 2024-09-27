@@ -24,7 +24,6 @@ class Grid {
 
   findNextAvailableRow({ row, column }) {
     if (row === -1) {
-      console.log('top');
       for (let r = 0; r < this.rowCount; r += 1) {
         if (this.getChip({ row: r, column })) {
           return r - 1 >= 0 ? r - 1 : null;
@@ -32,7 +31,6 @@ class Grid {
       }
       return this.rowCount - 1;
     } else if (row === this.rowCount) {
-      console.log('bottom');
       for (let r = this.rowCount - 1; r >= 0; r -= 1) {
         if (this.getChip({ row: r, column })) {
           return r + 1 < this.rowCount ? r + 1 : null;
@@ -45,7 +43,6 @@ class Grid {
 
   findNextAvailableColumn({ row, column }) {
     if (column === -1) {
-      console.log('left');
       for (let c = 0; c < this.columnCount; c += 1) {
         if (this.getChip({ row, column: c })) {
           return c - 1 >= 0 ? c - 1 : null;
@@ -53,7 +50,6 @@ class Grid {
       }
       return this.columnCount - 1;
     } else if (column === this.columnCount) {
-      console.log('right');
       for (let c = this.columnCount - 1; c >= 0; c -= 1) {
         if (this.getChip({ row, column: c })) {
           return c + 1 < this.columnCount ? c + 1 : null;
@@ -152,7 +148,6 @@ class GridComponent {
   }
 
   beginPlaceChip(event) {
-    console.log('begin');
     let currentPendingChipCoords = this.getPendingChipCoords(event);
     if (
       currentPendingChipCoords.x !== this.pendingChipX ||
