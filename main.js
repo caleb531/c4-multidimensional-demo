@@ -105,6 +105,7 @@ class GridComponent {
   oninit() {
     this.pendingChipX = grid.chipFullWidth;
     this.pendingChipY = 0;
+    this.pendingChipMovePromise = Promise.resolve();
   }
 
   snapTo(value, snapIncrement) {
@@ -122,9 +123,8 @@ class GridComponent {
     };
   }
 
-  movePendingChip(event) {
-    if (this.placingChip || this.movingPendingChip) {
-      event.redraw = false;
+  async movePendingChip(event) {
+    if (this.placingChip) {
       return;
     }
     const pendingChipCoords = this.getPendingChipCoords(event);
@@ -140,14 +140,18 @@ class GridComponent {
       this.pendingChipX = pendingChipCoords.x;
       this.pendingChipY = pendingChipCoords.y;
       this.movingPendingChip = true;
-      clearTimeout(this.pendingChipMoveTimer);
-      this.pendingChipMoveTimer = setTimeout(() => {
-        this.movingPendingChip = false;
-      }, 150);
+      await this.pendingChipMovePromise;
+      this.pendingChipMovePromise = new Promise((resolve) => {
+        clearTimeout(this.pendingChipMoveTimer);
+        this.pendingChipMoveTimer = setTimeout(() => {
+          this.movingPendingChip = false;
+          resolve();
+        }, 150);
+      });
     }
   }
 
-  beginPlaceChip(event) {
+  async beginPlaceChip(event) {
     let currentPendingChipCoords = this.getPendingChipCoords(event);
     if (
       currentPendingChipCoords.x !== this.pendingChipX ||
@@ -156,9 +160,7 @@ class GridComponent {
       this.movePendingChip(event);
       return;
     }
-    if (this.movingPendingChip) {
-      return;
-    }
+    await this.pendingChipMovePromise;
     // Treat the four corners of the grid as invalid
     let chipRow = this.pendingChipY / grid.chipFullWidth - 1;
     let chipColumn = this.pendingChipX / grid.chipFullWidth - 1;
