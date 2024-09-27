@@ -1,4 +1,4 @@
-# Connect Four
+# Connect Four Multidimensional Demo
 
 _Copyright 2021-2024, Caleb Evans_  
 _Released under the MIT License_
