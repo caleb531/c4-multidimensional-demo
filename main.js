@@ -156,6 +156,9 @@ class GridComponent {
       this.movePendingChip(event);
       return;
     }
+    if (this.movingPendingChip) {
+      return;
+    }
     // Treat the four corners of the grid as invalid
     let chipRow = this.pendingChipY / grid.chipFullWidth - 1;
     let chipColumn = this.pendingChipX / grid.chipFullWidth - 1;
