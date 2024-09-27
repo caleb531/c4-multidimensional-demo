@@ -1,0 +1,43 @@
+{
+  "name": "connect-four-multidimensional",
+  "version": "0.1.0",
+  "description": "A variant of Connect Four that allows you to place chips from any side",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "^20.0.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "prettier --check . && eslint .",
+    "format": "prettier --write ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/caleb531/connect-four-multidimensional.git"
+  },
+  "author": "Caleb Evans",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/caleb531/connect-four-multidimensional/issues"
+  },
+  "homepage": "https://github.com/caleb531/connect-four-multidimensional#readme",
+  "dependencies": {
+    "@fontsource/ubuntu": "^5.1.0",
+    "lodash": "^4.17.21",
+    "mithril": "^2.2.5"
+  },
+  "devDependencies": {
+    "@types/eslint-config-prettier": "^6.11.3",
+    "@types/eslint__js": "^8.42.3",
+    "@types/mithril": "^2.2.7",
+    "eslint": "^9.9.0",
+    "eslint-config-prettier": "^9.1.0",
+    "globals": "^15.9.0",
+    "prettier": "^3.3.3",
+    "sass": "^1.77.6",
+    "vite": "^5.4.8"
+  }
+}
