@@ -128,10 +128,13 @@ class GridComponent {
 
   movePendingChip(event) {
     if (this.placingChip || this.movingPendingChip) {
+      event.redraw = false;
       return;
     }
-    console.log('move');
     const pendingChipCoords = this.getPendingChipCoords(event);
+    if (pendingChipCoords.x === this.pendingChipX && pendingChipCoords.y === this.pendingChipY) {
+      event.redraw = false;
+    }
     if (
       pendingChipCoords.x === 0 ||
       pendingChipCoords.x === grid.gridMaxTranslateX ||
@@ -140,8 +143,11 @@ class GridComponent {
     ) {
       this.pendingChipX = pendingChipCoords.x;
       this.pendingChipY = pendingChipCoords.y;
-    } else {
-      event.redraw = false;
+      this.movingPendingChip = true;
+      clearTimeout(this.pendingChipMoveTimer);
+      this.pendingChipMoveTimer = setTimeout(() => {
+        this.movingPendingChip = false;
+      }, 150);
     }
   }
 
