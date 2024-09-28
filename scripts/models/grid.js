@@ -21,7 +21,7 @@ class Grid {
     return this.chipMap[column][row];
   }
 
-  findNextAvailableRow({ row, column }) {
+  getNextAvailableRow({ row, column }) {
     if (row === -1) {
       for (let r = 0; r < this.rowCount; r += 1) {
         if (this.getChip({ row: r, column })) {
@@ -40,7 +40,7 @@ class Grid {
     return null;
   }
 
-  findNextAvailableColumn({ row, column }) {
+  getNextAvailableColumn({ row, column }) {
     if (column === -1) {
       for (let c = 0; c < this.columnCount; c += 1) {
         if (this.getChip({ row, column: c })) {
@@ -59,17 +59,17 @@ class Grid {
     return null;
   }
 
-  findNextAvailableSlot({ row = null, column = null }) {
+  getNextAvailableSlot({ row = null, column = null }) {
     // If either X or Y is within the bounds of the grid, place the chip
     // accordingly
     if (column >= 0 && column < this.columnCount) {
-      row = this.findNextAvailableRow({ row, column });
+      row = this.getNextAvailableRow({ row, column });
       if (row === null) {
         return false;
       }
       return { row, column };
     } else if (row >= 0 && row < this.rowCount) {
-      column = this.findNextAvailableColumn({ row, column });
+      column = this.getNextAvailableColumn({ row, column });
       if (column === null) {
         return false;
       }
@@ -79,7 +79,7 @@ class Grid {
   }
 
   placeChip({ row = null, column = null, player = null }) {
-    const availableSlot = this.findNextAvailableSlot({ row, column });
+    const availableSlot = this.getNextAvailableSlot({ row, column });
     if (availableSlot) {
       this.chipMap[availableSlot.column][availableSlot.row] = player;
     }

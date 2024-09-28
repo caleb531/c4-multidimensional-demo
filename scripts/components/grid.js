@@ -67,7 +67,7 @@ class GridComponent {
     // Treat the four corners of the grid as invalid
     let chipRow = this.pendingChipY / this.grid.chipFullWidth - 1;
     let chipColumn = this.pendingChipX / this.grid.chipFullWidth - 1;
-    const availableSlot = this.grid.findNextAvailableSlot({
+    const availableSlot = this.grid.getNextAvailableSlot({
       row: chipRow,
       column: chipColumn
     });
