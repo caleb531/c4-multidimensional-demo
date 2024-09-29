@@ -18,6 +18,10 @@ h1 {
   letter-spacing: 0.5px;
 }
 
+.dashboard {
+  margin-bottom: 10px;
+}
+
 @keyframes zoom-in {
   0% {
     transform: scale(50);
@@ -28,7 +32,7 @@ h1 {
 }
 
 .grid {
-  display: inline-flex;
+  display: flex;
   position: relative;
   padding: 42px;
   background-color: #222;
@@ -74,4 +78,16 @@ h1 {
 
 .empty-chip-slot-inner {
   border-color: #999;
+}
+
+// Fade out non-winning chips when the game has ended
+
+@keyframes fade-out-chip {
+  100% {
+    opacity: 0.3;
+  }
+}
+
+.game:not(.in-progress) .chip:not(.winning) {
+  animation: fade-out-chip 300ms ease-in-out forwards;
 }

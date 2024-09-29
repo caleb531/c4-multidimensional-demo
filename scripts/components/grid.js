@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import _ from 'lodash';
 import m from 'mithril';
 
@@ -62,6 +63,9 @@ class GridComponent {
   }
 
   async beginPlaceChip(event) {
+    if (!this.game.inProgress) {
+      return;
+    }
     let currentPendingChipCoords = this.getPendingChipCoords(event);
     if (
       currentPendingChipCoords.x !== this.pendingChipX ||
@@ -105,6 +109,7 @@ class GridComponent {
     this.game.takeTurn();
     m.redraw();
     this.disablePendingChipTransition = false;
+    this.game.checkForWin();
     m.redraw();
   }
 
@@ -120,23 +125,31 @@ class GridComponent {
         onmousedown: (event) => this.beginPlaceChip(event)
       },
       [
-        m(
-          'div.chip.pending',
-          m(`div.chip-inner.${this.game.currentPlayer}`, {
-            class: this.placingChip ? 'placing-chip' : '',
-            style: {
-              transform: this.getTransformString(),
-              transition: this.disablePendingChipTransition ? 'none' : ''
-            }
-          })
-        ),
+        this.game.inProgress
+          ? m(
+              'div.chip.pending',
+              m(`div.chip-inner.${this.game.currentPlayer.color}`, {
+                class: clsx({ 'placing-chip': this.placingChip }),
+                style: {
+                  transform: this.getTransformString(),
+                  transition: this.disablePendingChipTransition ? 'none' : ''
+                }
+              })
+            )
+          : null,
         _.times(this.grid.columnCount, (c) => {
           return m(
             'div.grid-column',
             _.times(this.grid.rowCount, (r) => {
               const chip = this.grid.getChip({ row: r, column: c });
               if (chip) {
-                return m('div.chip', m(`div.chip-inner.${chip}`));
+                return m(
+                  'div.chip',
+                  {
+                    class: clsx({ winning: chip.winning })
+                  },
+                  m(`div.chip-inner.${chip.player.color}`)
+                );
               } else {
                 return m('div.empty-chip-slot', m('div.empty-chip-slot-inner'));
               }

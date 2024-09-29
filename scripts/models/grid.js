@@ -1,4 +1,6 @@
 import _ from 'lodash';
+import Chip from './chip.js';
+import GridConnection from './grid-connection.js';
 
 class Grid {
   constructor() {
@@ -14,6 +16,15 @@ class Grid {
     this.chipMap = {};
     _.times(this.columnCount, (c) => {
       this.chipMap[c] = {};
+    });
+    this.lastPlacedChip = null;
+  }
+
+  reset() {
+    _.times(this.columnCount, (c) => {
+      Object.keys(this.chipMap[c]).forEach((r) => {
+        delete this.chipMap[c][r];
+      });
     });
   }
 
@@ -81,9 +92,73 @@ class Grid {
   placeChip({ row = null, column = null, player = null }) {
     const availableSlot = this.getNextAvailableSlot({ row, column });
     if (availableSlot) {
-      this.chipMap[availableSlot.column][availableSlot.row] = player;
+      const newChip = new Chip({
+        row: availableSlot.row,
+        column: availableSlot.column,
+        player
+      });
+      this.chipMap[availableSlot.column][availableSlot.row] = newChip;
+      this.lastPlacedChip = newChip;
     }
     return true;
+  }
+
+  // Find same-color neighbors connected to the given chip in the given direction
+  getSubConnection(baseChip, direction) {
+    let neighbor = baseChip;
+    const subConnection = new GridConnection();
+    while (true) {
+      const nextColumn = neighbor.column + direction.x;
+      // Stop if the left/right edge of the grid has been reached
+      if (this.chipMap[nextColumn] === undefined) {
+        break;
+      }
+      const nextRow = neighbor.row + direction.y;
+      const nextNeighbor = this.chipMap[nextColumn][nextRow];
+      // Stop if the top/bottom edge of the grid has been reached or if the
+      // neighboring slot is empty
+      if (nextNeighbor === undefined) {
+        if (nextRow >= 0 && nextRow < this.rowCount) {
+          subConnection.emptySlotCount += 1;
+        }
+        break;
+      }
+      // Stop if this neighbor is not the same color as the original chip
+      if (nextNeighbor.player !== baseChip.player) {
+        break;
+      }
+      // Assume at this point that this neighbor chip is connected to the original
+      // chip in the given direction
+      neighbor = nextNeighbor;
+      subConnection.addChip(nextNeighbor);
+    }
+    return subConnection;
+  }
+
+  // Add a sub-connection (in the given direction) to a larger connection
+  addSubConnection(connection, baseChip, direction) {
+    const subConnection = this.getSubConnection(baseChip, direction);
+    connection.addConnection(subConnection);
+  }
+
+  // Get all connections of four chips (including connections of four within
+  // larger connections) which the last placed chip is apart of
+  getConnections({ baseChip, minConnectionSize }) {
+    const connections = [];
+    GridConnection.directions.forEach((direction) => {
+      const connection = new GridConnection({ chips: [baseChip] });
+      // Check for connected neighbors in this direction
+      this.addSubConnection(connection, baseChip, direction);
+      // Check for connected neighbors in the opposite direction
+      this.addSubConnection(connection, baseChip, {
+        x: -direction.x,
+        y: -direction.y
+      });
+      if (connection.length >= minConnectionSize) {
+        connections.push(connection);
+      }
+    });
+    return connections;
   }
 }
 
