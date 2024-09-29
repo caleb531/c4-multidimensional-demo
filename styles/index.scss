@@ -1,3 +1,8 @@
+:root {
+  --chip-move-transition-duration: 150ms;
+  --chip-place-transition-duration: 750ms;
+}
+
 body {
   display: flex;
   justify-content: center;
@@ -51,10 +56,10 @@ h1 {
   z-index: 100;
 }
 .chip.pending .chip-inner {
-  transition: transform 150ms ease-in-out;
+  transition: transform var(--chip-move-transition-duration) ease-in-out;
 }
 .chip.pending .chip-inner.placing-chip {
-  transition-duration: 750ms;
+  transition-duration: var(--chip-place-transition-duration);
 }
 
 .chip-inner,

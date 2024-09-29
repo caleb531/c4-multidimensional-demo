@@ -8,6 +8,13 @@ class GridComponent {
     this.pendingChipX = this.grid.chipFullWidth;
     this.pendingChipY = 0;
     this.pendingChipMovePromise = Promise.resolve();
+    const rootStyles = getComputedStyle(document.documentElement);
+    this.chipMoveTransitionDuration = parseFloat(
+      rootStyles.getPropertyValue('--chip-move-transition-duration')
+    );
+    this.chipPlaceTransitionDuration = parseFloat(
+      rootStyles.getPropertyValue('--chip-place-transition-duration')
+    );
   }
 
   snapTo(value, snapIncrement) {
@@ -49,7 +56,7 @@ class GridComponent {
         this.pendingChipMoveTimer = setTimeout(() => {
           this.movingPendingChip = false;
           resolve();
-        }, 150);
+        }, this.chipMoveTransitionDuration);
       });
     }
   }
@@ -87,7 +94,7 @@ class GridComponent {
           column: chipColumn,
           player: this.game.currentPlayer
         });
-      }, 750);
+      }, this.chipPlaceTransitionDuration);
       m.redraw();
     }
   }
