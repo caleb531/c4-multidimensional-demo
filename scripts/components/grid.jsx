@@ -128,8 +128,10 @@ class GridComponent {
         this.game.inProgress
           ? m(
               'div.chip.pending',
-              m(`div.chip-inner.${this.game.currentPlayer.color}`, {
-                class: clsx({ 'placing-chip': this.placingChip }),
+              m('div', {
+                class: clsx('chip-inner', this.game.currentPlayer.color, {
+                  'placing-chip': this.placingChip
+                }),
                 style: {
                   transform: this.getTransformString(),
                   transition: this.disablePendingChipTransition ? 'none' : ''
@@ -144,9 +146,9 @@ class GridComponent {
               const chip = this.grid.getChip({ row: r, column: c });
               if (chip) {
                 return m(
-                  'div.chip',
+                  'div',
                   {
-                    class: clsx({ winning: chip.winning })
+                    class: clsx('chip', { winning: chip.winning })
                   },
                   m(`div.chip-inner.${chip.player.color}`)
                 );

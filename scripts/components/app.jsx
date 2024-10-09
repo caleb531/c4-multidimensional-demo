@@ -13,9 +13,9 @@ class AppComponent {
   view() {
     return m('div.app', [
       m(
-        '.game',
+        'div',
         {
-          class: clsx({
+          class: clsx('game', {
             'in-progress': this.game.inProgress
           })
         },
