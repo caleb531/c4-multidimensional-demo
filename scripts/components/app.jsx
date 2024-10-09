@@ -2,8 +2,8 @@ import clsx from 'clsx';
 import m from 'mithril';
 import Game from '../models/game.js';
 import Grid from '../models/grid.js';
-import DashboardComponent from './dashboard.js';
-import GridComponent from './grid.js';
+import DashboardComponent from './dashboard.jsx';
+import GridComponent from './grid.jsx';
 
 class AppComponent {
   oninit() {
