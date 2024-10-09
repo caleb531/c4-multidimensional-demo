@@ -118,47 +118,48 @@ class GridComponent {
   }
 
   view() {
-    return m(
-      'div.grid',
-      {
-        onmousemove: (event) => window.ontouchstart === undefined && this.movePendingChip(event),
-        onmousedown: (event) => this.beginPlaceChip(event)
-      },
-      [
-        this.game.inProgress
-          ? m(
-              'div.chip.pending',
-              m('div', {
-                class: clsx('chip-inner', this.game.currentPlayer.color, {
-                  'placing-chip': this.placingChip
-                }),
-                style: {
-                  transform: this.getTransformString(),
-                  transition: this.disablePendingChipTransition ? 'none' : ''
+    return (
+      <div
+        className="grid"
+        onmousemove={(event) => window.ontouchstart === undefined && this.movePendingChip(event)}
+        onmousedown={(event) => this.beginPlaceChip(event)}
+      >
+        {this.game.inProgress ? (
+          <div className="chip pending">
+            <div
+              className={clsx('chip-inner', this.game.currentPlayer.color, {
+                'placing-chip': this.placingChip
+              })}
+              style={{
+                transform: this.getTransformString(),
+                transition: this.disablePendingChipTransition ? 'none' : ''
+              }}
+            />
+          </div>
+        ) : null}
+        {_.times(this.grid.columnCount, (c) => {
+          return (
+            <div className="grid-column">
+              {_.times(this.grid.rowCount, (r) => {
+                const chip = this.grid.getChip({ row: r, column: c });
+                if (chip) {
+                  return (
+                    <div className={clsx('chip', { winning: chip.winning })}>
+                      <div className={`chip-inner ${chip.player.color}`} />
+                    </div>
+                  );
+                } else {
+                  return (
+                    <div className="empty-chip-slot">
+                      <div className="empty-chip-slot-inner" />
+                    </div>
+                  );
                 }
-              })
-            )
-          : null,
-        _.times(this.grid.columnCount, (c) => {
-          return m(
-            'div.grid-column',
-            _.times(this.grid.rowCount, (r) => {
-              const chip = this.grid.getChip({ row: r, column: c });
-              if (chip) {
-                return m(
-                  'div',
-                  {
-                    class: clsx('chip', { winning: chip.winning })
-                  },
-                  m(`div.chip-inner.${chip.player.color}`)
-                );
-              } else {
-                return m('div.empty-chip-slot', m('div.empty-chip-slot-inner'));
-              }
-            })
+              })}
+            </div>
           );
-        })
-      ]
+        })}
+      </div>
     );
   }
 }

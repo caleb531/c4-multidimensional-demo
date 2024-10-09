@@ -11,21 +11,17 @@ class AppComponent {
     this.game = new Game({ grid: this.grid });
   }
   view() {
-    return m('div.app', [
-      m(
-        'div',
-        {
-          class: clsx('game', {
-            'in-progress': this.game.inProgress
-          })
-        },
-        [
-          m('h1', 'Multidimensional Connect Four'),
-          m(DashboardComponent, { game: this.game }),
-          m(GridComponent, { grid: this.grid, game: this.game })
-        ]
-      )
-    ]);
+    return (
+      <div className="app">
+        <div className={clsx('game', {
+          'in-progress': this.game.inProgress
+        })}>
+          <h1>Multidimensional Connect Four</h1>
+          <DashboardComponent game={this.game} />
+          <GridComponent grid={this.grid} game={this.game} />
+        </div>
+      </div>
+    );
   }
 }
 
