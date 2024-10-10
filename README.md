@@ -4,7 +4,8 @@ _Copyright 2021-2024, Caleb Evans_
 _Released under the MIT License_
 
 This application is a variant of Connect Four that allows you to place chips
-from any side.
+from any side. You can view the demo here:
+https://projects.calebevans.me/connect-four-multidimensional/
 
 ## Setup
 
