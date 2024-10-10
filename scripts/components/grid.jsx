@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import _ from 'lodash';
 import m from 'mithril';
+import { toMS } from '../utils';
 
 class GridComponent {
   oninit({ attrs: { game, grid } }) {
@@ -10,10 +11,10 @@ class GridComponent {
     this.pendingChipY = 0;
     this.pendingChipMovePromise = Promise.resolve();
     const rootStyles = getComputedStyle(document.documentElement);
-    this.chipMoveTransitionDuration = parseFloat(
+    this.chipMoveTransitionDuration = toMS(
       rootStyles.getPropertyValue('--chip-move-transition-duration')
     );
-    this.chipPlaceTransitionDuration = parseFloat(
+    this.chipPlaceTransitionDuration = toMS(
       rootStyles.getPropertyValue('--chip-place-transition-duration')
     );
   }
