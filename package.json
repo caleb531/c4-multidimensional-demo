@@ -40,5 +40,11 @@
     "prettier": "^3.4.2",
     "sass": "^1.83.4",
     "vite": "^6.0.11"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "esbuild"
+    ]
   }
 }
